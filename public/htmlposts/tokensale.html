@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+  			body {
+      font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+      font-weight: lighter;
+
+  }
+
+  h1, h2, h3 {
+      font-weight: lighter;
+      margin-bottom: 0;
+  }
+
+  .remark-slide-content {
+      background: #eee;
+      color: black;
+  }
+  .remark-slide-content h1 {
+      font-size: 3em;
+  }
+
+  .remark-slide-content h2 {
+      font-size: 2em;
+  }
+
+  .remark-slide-content h3 {
+      font-size: 1.6em;
+  }
+
+
+
+  .footnote {
+      position: absolute;
+      bottom: 3em;
+  }
+
+  li p {
+      line-height: 1.25em;
+  }
+
+
+  a, a>code {
+      color: #73682a;
+      font-weight:bold;
+      text-decoration: none;
+  }
+
+  code {
+      background: none repeat scroll 0 0 #82ffd5;
+      color: black;
+      border: 1px solid #DEDEDE;
+      border-radius: 3px;
+      padding: 0 0.2em;
+  }
+
+  .remark-code, .remark-inline-code {
+      font-family: "Titillium Web", "Courier", monospace;
+  }
+
+  .remark-code-line-highlighted {
+      background-color: #373832;
+  }
+
+  .pull-left {
+      float: left;
+      width: 47%;
+  }
+
+  .pull-right {
+      float: right;
+      width: 47%;
+  }
+
+  .pull-right~p {
+      clear: both;
+  }
+
+  #slideshow .slide .content code {
+      font-size: 0.8em;
+  }
+
+  #slideshow .slide .content pre code {
+      font-size: 0.9em;
+      padding: 15px;
+  }
+
+  .main-title, .title {
+      background: #272822;
+      color: #82ffd5;
+      text-shadow: 0 0 20px #333;
+  }
+
+  .title h1, .title h2, .main-title h1, .main-title h2 {
+      color: #82ffd5;
+      line-height: 0.8em;
+  }
+
+  .code{
+
+  }
+
+  /* Custom */
+
+  .remark-code {
+      display: block;
+      padding: 0.5em;
+  }
+
+  .remark-slide-content {
+
+    font-size: 24px;
+}
+  		</style>
+  </head>
+  <body>
+    <textarea id="source">
+
+      # ETHEREUM
+      ## CREACIÓN DE UN EVENTO DE GENERACIÓN DE TOKENS
+
+      ### Carlos Buendía  ([@buendiadas](https://twitter.com/buendiadas))
+
+    ---
+
+    # AGENDA
+
+    1. *Introducción*
+    2. Creación de los Smart Contracts
+    3. Auditoría
+    4. Ciberseguridad
+    5. Protección posterior
+
+    ---
+
+    # **1 INTRODUCCIÓN**
+
+    ---
+
+    # TOKEN SALE
+
+    ##  ¿Qué es una token sale /ICO?
+
+    - Intercambio de tokens o cryptomonedas
+    - Realizado generalmente a través de un Smart Contract.
+    - Generalmente, este evento coincide con el nacimiento del token (sin embargo no es una condición necesaria)*
+
+    ---
+
+    # SMART CONTRACT
+
+    ## ¿Qué es un Smart Contract? ##
+
+       - Conjunto de instrucciones subidas a la blockchain (generalmente a la de Ethereum).
+       - Capacidad de almacenamiento persistente única
+       - Ejecución determinista: Utilización de un máquina virtual única (EVM).
+          - Mecanismos económicos (futuro)
+          - Cryptográficos (pasado).
+    ---
+
+    # TOKEN
+
+    ## ¿Y qué es un Token?
+
+     - Uno de los primeros casos de uso de Ethereum
+     - Programación de un *libro contable* en la EVM
+     - Capacidad computacional: Instrucciones de ejecución
+     - Capacidad almacenamiento: Registro contable.
+
+    ---
+
+    # EJEMPLO: METACOIN
+    ```javascript
+
+    contract MetaCoin {
+      mapping (address => uint) balances; // <-- STORAGE!!
+
+    	function MetaCoin() {
+    		balances[tx.origin] = 10000;
+    	}
+
+    	function sendCoin(address receiver, uint amount) returns(bool sufficient) {
+    		if (balances[msg.sender] < amount) return false;
+    		balances[msg.sender] -= amount;
+    		balances[receiver] += amount;
+    		return true;
+    	}
+
+    	function getBalance(address addr) returns(uint) {
+    		return balances[addr];
+    	}
+    }
+    ```
+
+    ---
+
+    # TOKEN STANDARD
+
+    ## ¿QUÉ ES UN ERC20?
+
+      - Standard (interfaz) sobre las funciones a implementar
+      - Ethereum Request for Comments (Recuerdas RFC?)
+      - Fácil [interoperabilidad](https://etherscan.io/token-search)
+
+    ---
+    # ERC20
+
+    ```javascript
+
+    // https://github.com/ethereum/EIPs/issues/20
+     2 contract ERC20 {
+     3     function totalSupply() constant returns (uint totalSupply);
+     4     function balanceOf(address _owner) constant returns (uint balance);
+     5     function transfer(address _to, uint _value) returns (bool success);
+     6     function transferFrom(address _from, address _to, uint _value) returns (bool success);
+     7     function approve(address _spender, uint _value) returns (bool success);
+     8     function allowance(address _owner, address _spender) constant returns (uint remaining);
+     9     event Transfer(address indexed _from, address indexed _to, uint _value);
+    10     event Approval(address indexed _owner, address indexed _spender, uint _value);
+    11 }
+    ```
+
+    ---
+    # CROWDSALE
+
+
+    ![image](img/social-crowdsale.jpg)
+
+    ---
+
+    # HANDS ON
+
+    ## ¿CÓMO UTILIZAMOS TODO ESTO?
+
+    Principalmente el desarrollo de una ICO se concreta en el desarrollo de Smart Contracts para:
+
+     - La creación de un token
+     - La creación de un contrato de crowdsale
+
+    **Adicionalmente pueden aparecer otros contratos (vesting, lock-ups,bounties)**
+
+    ---
+
+    # ** 3. DESARROLLO**
+    ## GESTIÓN DE BUENAS PRÁCTICAS
+
+
+    ---
+
+    # ¡ERROR!
+
+    ## ¡Creemos una ICO!
+
+    - **CEO **: "Tras seguir las buenas prácticas del curso de ICOs, hemos decidido que esta es la estructura óptima para nuestro negocio"
+
+
+    - **New SC Developer:** "Solidity es como Javascript! Eso es una *mariconada*, está hecho en 2 días"
+
+
+    - **CEO** "Sabía yo que eso de los desarrolladores estrellita era todo humo..."
+
+    ---
+
+    # THE UGLY TRUTH
+
+    - El Smart Contract de contribución de una ICO está diseñado para mover  ** dinero ajeno** (*normalmente, mucho*)
+
+    - Tanto Ethereum, como el lenguaje de programación Solidity están en una fase beta (bugs)
+
+    - El desarrollo (profesional, responsable ) de un Smart Contract suele pasar por las siguientes fases:
+
+      - Planteamiento de la problemática (**50%**)
+      - Creación de Tests (**45%**)
+      - Desarrollo del Smart Contract (**5%**)
+
+    ---
+
+    # [FILOSOFÍA](https://github.com/ConsenSys/smart-contract-best-practices)
+
+      - Preparate para el error
+
+      - Desarrolla con cuidado
+
+      - Crea contratos simples
+
+      - Conoce los últimos patrones
+
+      - **Conoce cómo funciona la blockchain (internamente)**
+
+    ---
+
+    # DESARROLLANDO
+
+      - Test Driven Development (TDD), Mocha o Python para los tests
+
+      - Utiliza Frameworks de desarrollo en blockchain:
+        -Truffle
+        -Populus
+        -Dapple
+
+      - Prepara un documento de especificaciones.
+
+      - Utiliza librerías estandard (Zeppelin)
+
+      - Termina con una version estable del Token, almacena el **Hash**, y, ¡podemos pasar a la auditoría!
+
+    ---
+
+    # ** 3. AUDITORÍA **
+    ## GESTIÓN DE BUENAS PRÁCTICAS
+
+    ---
+
+    # BUENAS PRÁCTICAS
+
+      - Todo contrato que intervenga en la ICO debe ser auditado, al menos una vez.
+
+      - Utiliza auditoras con experiencia en el sector. ¡Haz tu propia due dilligence!
+
+      - ¿Tu auditor es tu desarrollador?.
+
+      - ¿Tu auditor ha sido pagado con tokens?.
+
+      ** Por caro que sea, una auditoría aliviará la presión en caso de que algo salga mal**
+
+    ---
+
+    # EJEMPLOS
+
+      - Consensys
+
+      - Open Zeppelin
+
+      - Validity Labs
+
+      - Peter Vessenes (Freelance)
+
+      - Jordi Baylina (Freelance)
+
+    ---
+
+    # ** 4. CIBERSEGURIDAD**
+    ## ¿Para qué aprender Solidity, si es mucho más facil?
+
+    ---
+
+      #  TIPOS DE ATAQUE
+
+
+      ![phising.png](img/phising.png)
+
+    ---
+
+    # PHISHING
+
+      - El mayor vector de ataque de la ICO está en las personas
+
+      - Ten una única fuente  de verdad, la dirección **sólo** será publicada aquí.
+
+      - Comunica constantemente de este canal y su unicidad.
+
+      - Proteje contraseñas de todos los miembros del equipo, en especial de los principales miembros.
+
+      - Modifica todas las contraseñas recursivamente.
+
+      - Vigila los medios y ten un plan de contingencia
+
+    ---
+
+    # PENETRACIÓN WEB
+
+    ![pen.png](img/pen.png)
+
+    ---
+
+    # ** 5. TRAS LA ICO**
+    ## ENHORABUENA...!
+    ---
+
+    # PROTEJE TUS CUENTAS
+
+     - No mantengas todo el dinero en una misma dirección.
+
+     - Utiliza escrows y multisig para mover los fondos. Estandard: Estructuras 3/4, 4/6 etc...
+
+     - Proteje físicamente las claves privadas.
+
+     - Evita en la medida de los posible almacenar dinero en contratos.
+
+    ---
+
+    # EJ: PARITY WALLET
+
+    ![img/parity.jpeg](img/parity.jpeg)
+
+    ---
+
+    # VESTING CONTRACTS
+
+    - Utiliza contratos de vesting para el equipo.
+
+    - Permitirán que los miembros del equipo solo puedan desbloquear los tokens a lo largo del tiempo.
+
+    - Razón: ¡Evita ventas rápidas!
+
+    ---
+
+    # DA VALOR A TUS TOKENS.
+
+    Lo habéis conseguido, tenéis tokens de vuestra propia compañía.
+
+    ¿Tenéis un plan para mantener su valor a largo plazo?
+
+    ---
+    # CONTINÚA CON LAS BUENAS PRÁCTICAS
+
+    # Gracias
+
+
+
+    ---
+    </textarea>
+
+    <a href="ethereum2.html">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

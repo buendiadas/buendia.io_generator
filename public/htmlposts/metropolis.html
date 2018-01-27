@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+  			body {
+      font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+      font-weight: lighter;
+
+  }
+
+  h1, h2, h3 {
+      font-weight: lighter;
+      margin-bottom: 0;
+  }
+
+  .remark-slide-content {
+      background: black;
+      color: white;
+  }
+  .remark-slide-content h1 {
+      font-size: 3em;
+  }
+
+  .remark-slide-content h2 {
+      font-size: 2em;
+  }
+
+  .remark-slide-content h3 {
+      font-size: 1.6em;
+  }
+
+
+
+  .footnote {
+      position: absolute;
+      bottom: 3em;
+  }
+
+  li p {
+      line-height: 1.25em;
+  }
+
+
+  a, a>code {
+      color: white;
+      font-weight:bold;
+      text-decoration: none;
+  }
+
+  img {
+    /* float: left; */
+    width: 80%;
+    margin: auto;
+    margin-top: 12%;
+    margin-left: 10%;
+}
+
+  code {
+      background: none repeat scroll 0 0 #82ffd5;
+      color: black;
+      border: 1px solid #DEDEDE;
+      border-radius: 3px;
+      padding: 0 0.2em;
+  }
+
+  .remark-code, .remark-inline-code {
+      font-family: "Titillium Web", "Courier", monospace;
+  }
+
+  .remark-code-line-highlighted {
+      background-color: #373832;
+  }
+
+  .pull-left {
+      float: left;
+      width: 47%;
+  }
+
+  .pull-right {
+      float: right;
+      width: 47%;
+  }
+
+  .pull-right~p {
+      clear: both;
+  }
+
+  #slideshow .slide .content code {
+      font-size: 0.8em;
+  }
+
+  #slideshow .slide .content pre code {
+      font-size: 0.9em;
+      padding: 15px;
+  }
+
+  .main-title, .title {
+      background: #272822;
+      color: #82ffd5;
+      text-shadow: 0 0 20px #333;
+  }
+
+  .title h1, .title h2, .main-title h1, .main-title h2 {
+      color: #82ffd5;
+      line-height: 0.8em;
+  }
+
+  .code{
+
+  }
+
+  /* Custom */
+
+  .remark-code {
+      display: block;
+      padding: 0.5em;
+  }
+
+  		</style>
+  </head>
+  <body>
+    <textarea id="source">
+
+  # Ethereum: Metropolis
+
+  ### Carlos Buendía
+  [buendia.io]('http://buendia.io')
+  [@buendiadas](https://twitter.com/buendiadas)
+  
+  ---
+  # Agenda
+
+  - Intro: Un poco de historia: 
+    - Ethereum
+    - EVM
+    - Roadmap
+    - HF ya efectuados
+  -  Las novedades: Metrópolis
+    - Escalabilidad
+    - Light Clients
+    - Mining
+    - Privacidad
+    - Otros cambios
+  - Futuros pasos: Serenity, PoS y escalabilidad
+
+  ---
+  # 1: Un reminder 
+
+  # ¿Qué es Ethereum? 
+
+  ## ¿Por qué Ethereum?
+  
+  ---
+  
+  ## Y si repensamos Bitcoin?
+
+  ![image](https://raw.githubusercontent.com/ethereumbuilders/GitBook/master/en/vitalik-diagrams/statetransition.png)
+
+  ---
+  ## Máquina de estados
+
+  ![image](https://raw.githubusercontent.com/ethereumbuilders/GitBook/master/en/vitalik-diagrams/ethertransition.png)
+
+  ---
+  ## Cuentas
+
+    -  Nonce-  Contador para comprobar que las transacciones solo se realizan una vez 
+    -  Ether Balance - Balance en ETH de la account
+    -  Code - En el caso en el que sea un contrato
+    -  Storage - Merkle hash del storage (si existe)
+
+  ---
+  ## Transacciones y mensajes
+
+    -  Receptor de la transaccion
+    -  *Firma del emisor* 
+    -  Cantidad de ETH emitida (value)
+    -  Campo `data` (opcional)
+    -  `STARTGAS` --> Máximos computational step
+    -  `GASPRICE` --> Precio a pagar por el Gas
+
+  ---
+
+  ## EVM
+
+  ![image](https://raw.githubusercontent.com/ethereumbuilders/GitBook/master/en/vitalik-diagrams/ethertransition.png)
+
+  ---
+
+  ## Roadmap Inicial
+    Inicial (Vinay Gupta): https://blog.ethereum.org/2015/03/03/ethereum-launch-process/
+    - Olympic Testnet
+    - Frontier: PoC 
+      - PoC
+      - Developer oriented
+      - Interfaces para ejecutar código, y minar
+      - Minería, Exchanges se integran al protocolo
+
+    - Homestead: After PoC  
+      - Una vez testeada la red (eliminados bugs fundamentales), se da el Ok para el público general
+      - Sin fecha/hitos previstos, únicamente se da por validada la PoC
+
+    - Metropolis: El Ethereum de las masas
+
+      - Apertura a gente no técnica: Mist, Swarm, DApp, Privacidad, store etc.. 
+      - Web 3!
+
+    - Serenity: Escalabilidad
+
+      - Proof of Stake
+  ---
+
+  ## Sin embargo, el camino no siempre es como esperamos...
+
+    ![image](https://qph.ec.quoracdn.net/main-qimg-5817bc7aa5adb410ca6c14c031fd7984)
+
+  ---
+  # Metropolis
+
+   - Principalmente mejoras del protocolo de lo aprendido en el camino
+   - Incorporación de los grandes avances en privacidad (ZCash desde Homestead)
+   - Mist, Swarm, Whisper aún en desarrollo 
+   - Seguimos preparandonos para el Mass adoption (pero aún no estamos preparados)
+   - Ethereum nació para tener el motor más generalista/Descentralizado. El objetivo principal de muchas de las funciones es el de *añadir un motor onchain de funciones cryptográficas/privacidad*
+
+
+  ---
+
+
+  ## Timeline
+
+    - Dividido en dos forks:
+      - Byzantium (4.37mil)
+      - Constantinople (2018 TBC)
+  ---
+
+  ## Cambios
+
+  No solo en UX (initial roadmap), sobre todo en principales EIPs que han sido descubiertas en el camino hasta ahora: 
+
+    - Escalabilidad
+    - Light Clients
+    - Mining
+    - *Privacidad*
+
+  ---
+
+  ## Byzantium: Las EIPS
+
+  ---
+  ---
+   ### ABSTRACCIÓN DE TRANSACTION ORIGIN(EIP86, Constantinopla) 
+
+    - A día de hoy toda transacción propagada a la red requiere de una firma por la clave privada del origen
+    - Esta propiedad (propagada en los siguientes campos de estado), corresponde al campo tx.origin
+    - From:  0xffffff
+    - Elimina dependencias del tipo de firma
+    - *Ring Signatures/Lamport/RSA* podemos utilizar numerosos esquemas.
+    - Gas=0 (pagado por el verificador)
+
+    ![image](https://themerkle.com/wp-content/uploads/2017/02/shutterstock_509910541.jpg)
+
+  ---
+  ### LIBRERÍAS PRECOMPILADAS PARA OPERACIONES COMPLEJAS
+    
+    - E.g: RSA Verification (EIP74)
+    - Aritmética EC (EIP101)
+    - zkSnarks (EIP197), integración de operaciones de pairing, similares a libSnark (pairing) 
+    - Actualmente muy [caro](https://ropsten.etherscan.io/tx/0x15e7f5ad316807ba16fe669a07137a5148973235738ac424d5b70f89ae7625e3#eventlog)
+
+    ![image](https://z.cash/images/arithmetic-circuit.png)
+
+  ---
+  ### STATIC_CALL OPCODE (EIP214)
+
+    - Creada en Junio 2016 ([The DAO Attack](https://www.slideshare.net/carlosbgallego1/dao-attack-final))
+    - Permite realizar una llamada entre contratos asegurando no modificar el estado.
+    - Prevención de Ataques de reentrada
+
+    ![image](http://i67.tinypic.com/2hrie4n.png)
+
+  ---
+
+  ### ‘REVERT, 'RETURNDATASIZE' OPCODES 
+
+    Permite revertir el estado sin consumir todo el gas.
+
+    ![image](https://www.cryptocoinsnews.com/wp-content/uploads/2017/10/airswap-ico-80000.jpg)
+
+  ---
+
+  ### EIP658: Nuevo campo de datos en el tx_receipt.
+
+    - Junto con REVERT, mejor manejo de excepciones.
+    - Permite a un light client conocer el estado de la ejecución.
+
+    ![image](http://walleth.org/assets/img/news/light_client_is_experimental.png)
+
+  ---
+  ## Mining
+
+  #### Retraso de la bomba de dificultad (Ice Age)
+
+  ![image](http://i65.tinypic.com/2193ztf.png)
+
+  Además, reducción de la recompensa de 5 a 3 ETH
+
+
+  ---
+  ## Lo que viene con constantinopla (ETA 2018) : 
+
+    - EIP86
+    - Casper 1/100 Bloques
+    - Vuelve la bomba de dificultad
+    - Incentivos con la dificultad a adopción de Casper
+
+  ---
+
+  ## Lo que viene con Serenity
+
+    - Proof of Stake aplicado a partir de los cambios anteriores
+    - Mejora y estabilidad de los protocolos de privacidad (ahí estamos en Frontier)
+    - Escalabilidad y protocolos generalistas sobre state channels (Sharding, Plasma, State Channels, Raiden)
+
+
+
+
+ 
+    </textarea>
+
+    <a href="ethereum2.html">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

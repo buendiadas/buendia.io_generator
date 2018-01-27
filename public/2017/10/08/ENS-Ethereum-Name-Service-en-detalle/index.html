@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107938464-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-107938464-1');
+   </script>
+
+    <title>
+        
+          Tutorial. ENS en detalle. - undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/10/08/ENS-Ethereum-Name-Service-en-detalle/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background:black
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ENS,Ethereum,Tutorial" title="ENS,Ethereum,Tutorial">ENS,Ethereum,Tutorial</a>
+                            
+                        </div>
+                        <h1>Tutorial. ENS en detalle.</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Carlos Buendía on
+                            2017-10-08
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Buendía</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h4><span id="carlos-buendía-buendiadas">Carlos Buendía (@buendiadas)</span></h4>
+<p>http://buendia.io</p>
+<h1><span id="ens-ethereum-name-service">ENS: Ethereum name Service</span></h1>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*U-48MhnGYYpJkxZObAw20w.png" alt="hello"></p>
+<h2><span id="motivación">Motivación</span></h2>
+<p>Si bien la web necesitaba un estandar para la resolución de nombres legibles en lugar del acceso a IP's, la web3 (o aquello a lo que aspira conseguir Ethereum) necesitará un protocolo similar. En mayor medida si cabe, ya si bien que una IPv4 puede ser incluso legible, una dirección en Hexadecimal como la que encontramos en la figura anterior puede ser una pesadilla. Entre otros motivos, este problema facilita la ejecución de ataques de <a href="http://buendia.io/htmlposts/tokensale.html#22" target="_blank" rel="external">phising </a>, ya que un cambio de dirección por el atacante pasará inadvertido por cualquier persona (incluso en muchos casos el dueño de la dirección).</p>
+<p>Además de las direcciones, podemos comenzar a asociar una multitud de registros nuevos, y, de la misma manera que DNS albergaba diferentes registros (MX,A etc..) comenzar a dirigir peticiones de Swarm, DNS, DNI (para ID's), o multitud de nuevas aplicaciones.</p>
+<hr>
+<h2><span id="arquitectura">Arquitectura</span></h2>
+<p>De la misma manera que dividimos la arquitectura de DNS en tres diferentes componentes, dividimos la arquitectura de ENS en otros 3:</p>
+<ol>
+<li>
+<p><a href="https://github.com/ethereum/ens/blob/master/contracts/ENS.sol" target="_blank" rel="external"><strong>ENS</strong> </a>: Un registro único para todos los dominios de Ethereum. Un Smart contract muy simplón: mapping de los nombres registrados a dos direcciones:</p>
+<ul>
+<li>La dirección del owner</li>
+<li>La dirección del resolver</li>
+<li>TTL</li>
+</ul>
+<p>Comparando con la arquitectura DNS, sustituiría la función de los Nameservers.</p>
+</li>
+<li>
+<p><a href="https://github.com/ethereum/ens/blob/master/contracts/PublicResolver.sol" target="_blank" rel="external"><strong>El resolver</strong></a> Otro mapping, en este caso desde el dominio seleccionado a los diferentes recursos asociados (namespace) .</p>
+</li>
+<li>
+<p>[<strong>Contratos de registro</strong>]: Diseñados para gestionar dominios jerarquicamente inferiores .</p>
+</li>
+</ol>
+<hr>
+<h2><span id="arquitectura">Arquitectura</span></h2>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*WfSYnum96UqchRJj83xZXA.png" alt="architecture"></p>
+<hr>
+<h2><span id="ens-registry">ENS Registry</span></h2>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">contract AbstractENS &#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">owner</span>(<span class="params">bytes32 node</span>) <span class="title">constant</span> <span class="title">returns</span>(<span class="params">address</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">resolver</span>(<span class="params">bytes32 node</span>) <span class="title">constant</span> <span class="title">returns</span>(<span class="params">address</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">ttl</span>(<span class="params">bytes32 node</span>) <span class="title">constant</span> <span class="title">returns</span>(<span class="params">uint64</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">setOwner</span>(<span class="params">bytes32 node, address owner</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">setSubnodeOwner</span>(<span class="params">bytes32 node, bytes32 label, address owner</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">setResolver</span>(<span class="params">bytes32 node, address resolver</span>);</span></div><div class="line"><span class="function">    <span class="title">function</span> <span class="title">setTTL</span>(<span class="params">bytes32 node, uint64 ttl</span>);</span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function">    <span class="title">event</span> <span class="title">NewOwner</span>(<span class="params">bytes32 indexed node, bytes32 indexed label, address owner</span>);</span></div><div class="line"><span class="function">    <span class="title">event</span> <span class="title">Transfer</span>(<span class="params">bytes32 indexed node, address owner</span>);</span></div><div class="line"><span class="function">    <span class="title">event</span> <span class="title">NewResolver</span>(<span class="params">bytes32 indexed node, address resolver</span>);</span></div><div class="line"><span class="function">    <span class="title">event</span> <span class="title">NewTTL</span>(<span class="params">bytes32 indexed node, uint64 ttl</span>);</span></div><div class="line"><span class="function">&#125;</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h2><span id="ens-registry">ENS Registry</span></h2>
+<p>Básicamente:</p>
+<p><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Record</span> &#123;</span></div><div class="line">    address owner;</div><div class="line">    address resolver;</div><div class="line">    uint64 ttl;</div><div class="line">&#125;</div><div class="line"></div><div class="line">mapping(bytes32=&gt;Record) records;</div></pre></td></tr></table></figure></p>
+<h2><span id="namehash">Namehash</span></h2>
+<p>¿Cómo mantenemos cierto grado de privacidad sobre los nodos/Keys/dominios, manteniendo un URI?</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> labels = name.split(<span class="string">'.'</span>)</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = labels.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">      <span class="keyword">var</span> labelSha = sha3(labels[i])</div><div class="line">      node = sha3(<span class="keyword">new</span> Buffer(node + labelSha, <span class="string">'hex'</span>))</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>Básicamente, haciendo un Keccak hash recursivo de cada &quot;label&quot;, separada por los puntos.</p>
+<p>Definición: <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-137.md" target="_blank" rel="external">EIP137</a></p>
+<h2><span id="namehash-implementación">Namehash: Implementación</span></h2>
+<p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install eth-ens-namehash -S</div></pre></td></tr></table></figure></p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> namehash = <span class="built_in">require</span>(<span class="string">'eth-ens-namehash'</span>)</div><div class="line"><span class="keyword">var</span> hash = namehash(<span class="string">'buendia.eth'</span>)</div><div class="line"><span class="comment">// '0x3b54251663d00d80dfd97b41b67522dd6e85564dec4161e78630a8772bf3be97'</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h2><span id="registrars">Registrars</span></h2>
+<ul>
+<li>Contrato con capacidad de registrar subdominios de un registro</li>
+<li>Fija las normas para registrar estos subdominios</li>
+<li>Owner de ENS al deployer del contrato (actualmente una multisig)</li>
+<li>Por jerarquía, el registro principal actualmente es '.eth', un 'auctionRegistrar'</li>
+</ul>
+<hr>
+<h2><span id="ejemplo-fifs-registrar">Ejemplo: </span></h2>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'./AbstractENS.sol'</span>;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * A registrar that allocates subdomains to the first person to claim them.</span></div><div class="line"><span class="comment"> */</span></div><div class="line">contract FIFSRegistrar &#123;</div><div class="line">    AbstractENS ens;</div><div class="line">    bytes32 rootNode;</div><div class="line">  <span class="comment">//...</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">FIFSRegistrar</span>(<span class="params">AbstractENS ensAddr, bytes32 node</span>) </span>&#123;</div><div class="line">        ens = ensAddr;</div><div class="line">        rootNode = node;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">register</span>(<span class="params">bytes32 subnode, address owner</span>) <span class="title">only_owner</span>(<span class="params">subnode</span>) </span>&#123;</div><div class="line">        ens.setSubnodeOwner(rootNode, subnode, owner);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h2><span id="ejemplo-práctico-fifs-i">Ejemplo práctico FIFS (I)</span></h2>
+<p>En la terminal 2:</p>
+<p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ testrpc</div></pre></td></tr></table></figure></p>
+<p>En la terminal 1:</p>
+<p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/ethereum/ens.git</div><div class="line">$ truffle migrate --network dev.fifs</div><div class="line">$ truffle console</div></pre></td></tr></table></figure></p>
+<p>Almacena las claves migradas (yourENSDeployedAddress, yourFIFSDeployedAddress)</p>
+<hr>
+<h2><span id="ejemplo-práctico-fifs-ii">Ejemplo práctico FIFS (II)</span></h2>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> namehash = <span class="built_in">require</span>(<span class="string">'./node_modules/eth-ens-namehash'</span>);</div><div class="line"><span class="keyword">const</span> ens = ENS.at(yourENSDeployedAddres);</div><div class="line"><span class="keyword">const</span> fifs= FIFSRegistrar.at(yourFIFSDeployedAddress);</div><div class="line"><span class="keyword">const</span> tld= <span class="string">'eth'</span>; <span class="comment">// This is by default TLD, probably opened in a future</span></div><div class="line"><span class="keyword">const</span> default_account = web3.eth.accounts[<span class="number">0</span>];</div><div class="line"></div><div class="line"><span class="keyword">let</span> node = namehash(<span class="string">'eth'</span>);</div><div class="line"><span class="comment">//'0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae'</span></div><div class="line"></div><div class="line">ens.owner(<span class="string">''</span>); <span class="comment">//Owner of the ENS Contract</span></div><div class="line"><span class="comment">// default_account</span></div><div class="line">ens.owner(node);</div><div class="line"><span class="comment">// FIFS_Registrar</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h2><span id="ejemplo-práctico-fifs-iii">Ejemplo práctico FIFS (III)</span></h2>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> subnode=<span class="string">'buendiadas'</span>; <span class="comment">//I want to register my name!</span></div><div class="line"><span class="keyword">let</span> complete_node=subnode + <span class="string">'.'</span> + tld; <span class="comment">//buendiadas.eth</span></div><div class="line"><span class="keyword">let</span> curr_account= web3.eth.accounts[<span class="number">1</span>]; <span class="comment">//My account!</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> tx = fifs.register(web3.sha3(subnode),curr_account);</div><div class="line"><span class="keyword">let</span> new_owner=ens.owner(namehash(complete_node);</div><div class="line">new_owner</div><div class="line"><span class="comment">// My Account!</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h2><span id="resolver">Resolver</span></h2>
+<ul>
+<li>Acceso al NameSpace del dominio</li>
+<li>Cada tipo de registro (Recuerda A,MX, etc…) se representa como una nueva interfaz.</li>
+<li>Actualmente:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Record type</th>
+<th>Function(s)</th>
+<th>Interface ID</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ethereum address</td>
+<td>addr</td>
+<td>0x3b3b57de</td>
+<td><a href="https://github.com/ethereum/EIPs/issues/137" target="_blank" rel="external">EIP137</a></td>
+</tr>
+<tr>
+<td>ENS Name</td>
+<td>name</td>
+<td>0x691f3431</td>
+<td><a href="https://github.com/ethereum/EIPs/issues/181" target="_blank" rel="external">EIP181</a></td>
+</tr>
+<tr>
+<td>ABI specification</td>
+<td>ABI</td>
+<td>0x2203ab56</td>
+<td><a href="https://github.com/ethereum/EIPs/pull/205" target="_blank" rel="external">EIP205</a></td>
+</tr>
+<tr>
+<td>Public key</td>
+<td>pubkey</td>
+<td>0xc8690233</td>
+<td><a href="https://github.com/ethereum/EIPs/pull/619" target="_blank" rel="external">EIP619</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2><span id="ejemplo-práctico-resolver">Ejemplo práctico resolver</span></h2>
+<p>Vamos a llenar el campo address (interfaz 0x3b3b57de)!</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> res_addres= PublicResolver.address;</div><div class="line">ens.setResolver(namehash(complete_node), res.address,&#123;<span class="attr">from</span>:curr_account&#125;);<span class="comment">//Only allowed from curr_account!</span></div><div class="line"></div><div class="line">res.setAddr(namehash(complete_node), web3.eth.accounts[<span class="number">2</span>], &#123;<span class="attr">from</span>: curr_account&#125;);</div><div class="line">getAddr(<span class="string">'myname.test'</span>)</div></pre></td></tr></table></figure></p>
+<hr>
+<h1><span id="the-end">The end</span></h1>
+<p><img src="https://s3.amazonaws.com/codementor_content/2015-Aug-week2/cookie.jpg" alt="img"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/10/08/Workshop-para-crear-una-DAO-Decentralized-Autonomous-Organization/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/10/07/Analizando-DNS-para-descentralizarlo-con-DNS/" data-toggle="tooltip" data-placement="top" title="Analizando DNS para después descentralizarlo con ENS">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/buendiadas">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/buendiadas">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/buendiacarlos">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Carlos Buendía 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

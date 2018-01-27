@@ -1,0 +1,8 @@
+
+# Code Highlight theme
+# Available value:
+#    normal | night | night yilia | night eighties | night blue | night bright
+# https://github.com/chriskempson/tomorrow-theme
+# night yilia - https://github.com/litten/hexo-theme-yilia
+highlight_theme: night eighties
+header-img:https://i2.wp.com/hipertextual.com/archivo/wp-content/uploads/2014/04/como-funcionan-los-dns-jerarquia1.jpg?resize=800%2C556

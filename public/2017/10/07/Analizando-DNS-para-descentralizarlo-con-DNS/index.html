@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="undefined">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107938464-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-107938464-1');
+   </script>
+
+    <title>
+        
+          Analizando DNS para después descentralizarlo con ENS - undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/10/07/Analizando-DNS-para-descentralizarlo-con-DNS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background:black
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ENS,Ethereum,Tutorial" title="ENS,Ethereum,Tutorial">ENS,Ethereum,Tutorial</a>
+                            
+                        </div>
+                        <h1>Analizando DNS para después descentralizarlo con ENS</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Carlos Buendía on
+                            2017-10-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Buendía</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2><span id="intro">Intro</span></h2>
+<p>En el siguiente post, observaremos en detalle el servicio de registro de nombre de Ethereum (ENS) y haremos un pequeño tutorial de cómo utilizar Ethereum Name Service para registrar tu propio dominio y asociar variables al mismo.</p>
+<p><em>Como siempre, comenzaremos explorando los fundamentos (en este caso, los protocolos actualmente utilizados en la web) para comprender el racional de arquitectura, posteiormente analizaremos el estandard ENS y finalmente realizaremos ejercicio sobre la red actual</em>.</p>
+<p><em>Esto ayudará a entender los requisitos necesarios para futuras necesidades de ENS y funcionalidades requeridas por ENS, de modo que podamos reemplazar completamente el servicio</em>.</p>
+<p><em>Para aquellos que sepan cómo funciona DNS y quieran ir al grano con ENS, pueden pasar directamente al punto <a href="#ENS:Ethereum-Name-Service">ENS</a></em></p>
+<h3><span id="precedente-dns-domain-name-system">Precedente: DNS (Domain Name System)</span></h3>
+<p><a href="https://www.ietf.org/rfc/rfc1035.txt" target="_blank" rel="external">DNS (Domain Name System), RFC 1035</a> es uno de los servicios pilares de la web bien conocido por todos, cuyo objetivo básico es el de proveer de un servicio de nombres para el recursos. Como se verá en puntos posteriores, su funcionamiento tiene una estructura jerárquica y distrubuida (no descentralizada), ya que su base de datos se encuentra repartida entre numerosos servidores (Domain Servers).</p>
+<p>Fundamentalmente, su funcionamiento puede separarse en tres funcionalidades principales:</p>
+<ul>
+<li>Arboles de dominio</li>
+<li>Resolvers</li>
+<li>Namespaces</li>
+<li>Name Servers</li>
+</ul>
+<p>Que exploraremos en los puntos posteriores.</p>
+<h3><span id="namespaces">Namespaces</span></h3>
+<p>El estandar DNS define una estructura de arbol en el cual, cada rama representa un dominio separado. De esta manera. Cada uno de estos dominios tiene asociados una serie de recursos (invisibles para el usuario), de manera que según la funcionalidad que una query haga a esta dirección tendrá acceso a un <a href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml" target="_blank" rel="external">recurso</a> diferente. La mayor parte de los lectores que haya configurado un servidor de nombres le serán familiares la mayor parte de estos <a href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml" target="_blank" rel="external">recursos</a>, que incluyen algunos como los siguientes:</p>
+<table>
+<thead>
+<tr>
+<th>TYPE</th>
+<th>Value</th>
+<th>Meaning</th>
+<th>Reference</th>
+<th>Template</th>
+<th>Registration Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>1</td>
+<td>a host address</td>
+<td>[<a href="http://www.iana.org/go/rfc1035" target="_blank" rel="external">RFC1035</a>]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NS</td>
+<td>2</td>
+<td>an authoritative name server</td>
+<td>[<a href="http://www.iana.org/go/rfc1035" target="_blank" rel="external">RFC1035</a>]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MD</td>
+<td>3</td>
+<td>a mail destination (OBSOLETE - use MX)</td>
+<td>[<a href="http://www.iana.org/go/rfc1035" target="_blank" rel="external">RFC1035</a>]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MF</td>
+<td>4</td>
+<td>a mail forwarder (OBSOLETE - use MX)</td>
+<td>[<a href="http://www.iana.org/go/rfc1035" target="_blank" rel="external">RFC1035</a>]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>5</td>
+<td>the canonical name for an alias</td>
+<td>[<a href="http://www.iana.org/go/rfc1035" target="_blank" rel="external">RFC1035</a>]</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>… Y así un gran listado de ellos</p>
+<p>Un ejemplo para poder acceder a los recursos asociados a un registro determinado es utilizando el comando <code>$host</code> (Unix):</p>
+<p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$host</span> buendia.io</div><div class="line"></div><div class="line">buendia.io has address 192.30.252.154</div></pre></td></tr></table></figure></p>
+<p>En el que comprobamos la dirección IPv4 del host de la página ( registro tipo A). O utilizando la opción -a, observando el resto de registros del NameSpace.</p>
+<p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$host</span> -a buendia.io</div><div class="line">;; ANSWER SECTION:</div><div class="line">buendia.io.		1642	IN	MX	20 eforward5.registrar-servers.com.</div><div class="line">buendia.io.		1642	IN	MX	10 eforward2.registrar-servers.com.</div><div class="line">buendia.io.		1642	IN	MX	15 eforward4.registrar-servers.com.</div><div class="line">buendia.io.		1642	IN	MX	10 eforward1.registrar-servers.com.</div><div class="line">buendia.io.		1642	IN	MX	10 eforward3.registrar-servers.com.</div><div class="line">buendia.io.		753	IN	A	192.30.252.153</div><div class="line">buendia.io.		753	IN	A	192.30.252.154</div></pre></td></tr></table></figure></p>
+<p>En el cual podemos comprobar, por ejemplo, que el dominio <a href="http://buendia.io" target="_blank" rel="external">buendia.io</a> tiene:</p>
+<ul>
+<li>Registros tipo &quot;A&quot; (IPv4) del host a IP's: <figure class="highlight sh"><figcaption><span>192.30.252.153```, ```sh 192.30.252.154```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- Registros tipo <span class="string">"MX"</span> (Mail Exchange) al servidor: eforward5.registrar-servers.com</div><div class="line"></div><div class="line"><span class="comment">### Name Servers</span></div><div class="line"></div><div class="line">Aplicación en un servidor que contiene la información sobre el arbol, la cual responde a las queries para aquellos dominios de los que tiene autoridad (estructura jerárquica) y reenvía las peticiones a otros dominios de los que no tiene autoridad a otro resolver, lo cual recursivamente permite acceder a todos los dominios en un árbol.</div><div class="line"></div><div class="line">Podemos observar donde se encuentra el Nameserver al que estamos accediendo a través del resolver haciendo un ``<span class="variable">$nslookup</span>``:</div><div class="line"></div><div class="line">```shell</div><div class="line"><span class="variable">$nslookup</span> buendia.io</div><div class="line"></div><div class="line">Server:		192.168.0.1</div><div class="line">Address:	192.168.0.1<span class="comment">#53</span></div><div class="line"></div><div class="line">Non-authoritative answer:</div><div class="line">Name:	buendia.io</div><div class="line">Address: 192.30.252.154</div><div class="line">Name:	buendia.io</div><div class="line">Address: 192.30.252.153</div></pre></td></tr></table></figure></li>
+</ul>
+<p>Lo cual nos devuelve la dirección del NameServer de autoridad en mi red local (Mi router), y la respuesta obtenido.</p>
+<h3><span id="resolvers">Resolvers</span></h3>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">             Local Host                        |  Foreign</div><div class="line">                                               |</div><div class="line">+---------+               +----------+         |  +--------+</div><div class="line">|         | user queries  |          |queries  |  |        |</div><div class="line">|  User   |--------------&gt;|          |---------|-&gt;|Foreign |</div><div class="line">| Program |               | Resolver |         |  |  Name  |</div><div class="line">|         |&lt;--------------|          |&lt;--------|--| Server |</div><div class="line">|         | user responses|          |responses|  |        |</div><div class="line">+---------+               +----------+         |  +--------+</div><div class="line">                            |     A            |</div><div class="line">            cache additions |     | references |</div><div class="line">                            V     |            |</div><div class="line">                          +----------+         |</div><div class="line">                          |  cache   |         |</div><div class="line">                          +----------+         |</div></pre></td></tr></table></figure></p>
+<p>¿A quíen debo preguntar como usuario para saber donde acceder al recurso? Los resolvers se encargan de esta tarea. Un resolver tiene acceso al menos a <strong>un servidor DNS</strong>.</p>
+<p>En este caso, en UNIX, puedes hacer:</p>
+<p><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> cat /etc/resolv.conf</span></div></pre></td></tr></table></figure></p>
+<p>Lo cual devolverá algo parecido a:</p>
+<p><code>nameserver 192.168.0.1</code></p>
+<h3><span id="jerarquía">Jerarquía</span></h3>
+<p>A partir de esta información, encontramos una estructura de comunicaciones entre NameServers y resolvers jerárquica, en la cual, cada una de las ramas <em>&quot;padre&quot;</em>, conoce a sus hijos.</p>
+<p><img src="http://player.slideplayer.com/16/5263622/data/images/img4.jpg" alt="hierarchy"></p>
+<p>Y bien, ¿Quiénes son esos Root Name servers que tienen autoridad sobre todo servidor? Podemos encontrarlos en <a href="https://www.iana.org/domains/root/servers" target="_blank" rel="external">IANA (Internet Assigned Numbers Authority)</a>:</p>
+<table>
+<thead>
+<tr>
+<th>HOSTNAME</th>
+<th>IP ADDRESSES</th>
+<th>MANAGER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a.root-servers.net</td>
+<td>198.41.0.4, 2001:503:ba3e::2:30</td>
+<td>VeriSign, Inc.</td>
+</tr>
+<tr>
+<td>b.root-servers.net</td>
+<td>192.228.79.201, 2001:500:200::b</td>
+<td>University of Southern California (ISI)</td>
+</tr>
+<tr>
+<td>c.root-servers.net</td>
+<td>192.33.4.12, 2001:500:2::c</td>
+<td>Cogent Communications</td>
+</tr>
+<tr>
+<td>d.root-servers.net</td>
+<td>199.7.91.13, 2001:500:2d::d</td>
+<td>University of Maryland</td>
+</tr>
+<tr>
+<td>e.root-servers.net</td>
+<td>192.203.230.10, 2001:500:a8::e</td>
+<td>NASA (Ames Research Center)</td>
+</tr>
+<tr>
+<td>f.root-servers.net</td>
+<td>192.5.5.241, 2001:500:2f::f</td>
+<td>Internet Systems Consortium, Inc.</td>
+</tr>
+<tr>
+<td>g.root-servers.net</td>
+<td>192.112.36.4, 2001:500:12::d0d</td>
+<td>US Department of Defense (NIC)</td>
+</tr>
+<tr>
+<td>h.root-servers.net</td>
+<td>198.97.190.53, 2001:500:1::53</td>
+<td>US Army (Research Lab)</td>
+</tr>
+<tr>
+<td>i.root-servers.net</td>
+<td>192.36.148.17, 2001:7fe::53</td>
+<td>Netnod</td>
+</tr>
+<tr>
+<td>j.root-servers.net</td>
+<td>192.58.128.30, 2001:503:c27::2:30</td>
+<td>VeriSign, Inc.</td>
+</tr>
+<tr>
+<td>k.root-servers.net</td>
+<td>193.0.14.129, 2001:7fd::1</td>
+<td>RIPE NCC</td>
+</tr>
+<tr>
+<td>l.root-servers.net</td>
+<td>199.7.83.42, 2001:500:9f::42</td>
+<td>ICANN</td>
+</tr>
+<tr>
+<td>m.root-servers.net</td>
+<td>202.12.27.33, 2001:dc3::35</td>
+<td>WIDE Project</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://player.slideplayer.com/16/5263622/data/images/img9.jpg" alt="Comunicaciones"></p>
+<p><a href="https://dnschecker.org/#A/buendia.io" target="_blank" rel="external">Ejemplo de propagación de nombres</a></p>
+<p>Pero bien, ya hemos hablado suficiente de DNS, y todos lo conocemos bien, <strong>¿Por qué no empezamos a hablar de ENS?</strong></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/10/08/ENS-Ethereum-Name-Service-en-detalle/" data-toggle="tooltip" data-placement="top" title="Tutorial. ENS en detalle.">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/03/25/curso-ethereum/" data-toggle="tooltip" data-placement="top" title="Curso de introducción Ethereum para desarrolladores">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/buendiadas">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/buendiadas">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/buendiacarlos">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Carlos Buendía 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

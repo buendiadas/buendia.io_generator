@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+  			body {
+      font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+      font-weight: lighter;
+
+  }
+
+  h1, h2, h3 {
+      font-weight: lighter;
+      margin-bottom: 0;
+  }
+
+  .remark-slide-content {
+      background: #eee;
+      color: black;
+  }
+  .remark-slide-content h1 {
+      font-size: 3em;
+  }
+
+  .remark-slide-content h2 {
+      font-size: 2em;
+  }
+
+  .remark-slide-content h3 {
+      font-size: 1.6em;
+  }
+
+
+
+  .footnote {
+      position: absolute;
+      bottom: 3em;
+  }
+
+  li p {
+      line-height: 1.25em;
+  }
+
+
+  a, a>code {
+      color: #73682a;
+      font-weight:bold;
+      text-decoration: none;
+  }
+
+  code {
+      background: none repeat scroll 0 0 #82ffd5;
+      color: black;
+      border: 1px solid #DEDEDE;
+      border-radius: 3px;
+      padding: 0 0.2em;
+  }
+
+  .remark-code, .remark-inline-code {
+      font-family: "Titillium Web", "Courier", monospace;
+  }
+
+  .remark-code-line-highlighted {
+      background-color: #373832;
+  }
+
+  .pull-left {
+      float: left;
+      width: 47%;
+  }
+
+  .pull-right {
+      float: right;
+      width: 47%;
+  }
+
+  .pull-right~p {
+      clear: both;
+  }
+
+  #slideshow .slide .content code {
+      font-size: 0.8em;
+  }
+
+  #slideshow .slide .content pre code {
+      font-size: 0.9em;
+      padding: 15px;
+  }
+
+  .main-title, .title {
+      background: #272822;
+      color: #82ffd5;
+      text-shadow: 0 0 20px #333;
+  }
+
+  .title h1, .title h2, .main-title h1, .main-title h2 {
+      color: #82ffd5;
+      line-height: 0.8em;
+  }
+
+  .code{
+
+  }
+
+  /* Custom */
+
+  .remark-code {
+      display: block;
+      padding: 0.5em;
+  }
+
+  .remark-slide-content {
+
+    font-size: 24px;
+}
+  		</style>
+  </head>
+  <body>
+    <textarea id="source">
+
+      # ENS in Depth
+
+
+
+    #### Carlos Buendía (@buendiadas)
+
+    http://buendia.io
+
+
+
+    ---
+    ## Preface
+
+    En la sesión práctica de hoy exploraremos el servicio descentralizado de Ethereum ENS (Ethereum Name Service), desde su funcionamiento y características internas, hasta el despliegue y registro de nodos y subnodos.
+
+    *Como siempre, comenzaremos explorando los fundamentos (en este caso, los protocolos actuales) para comprender el racional de arquitectura, posteiormente analizaremos el estandard ENS y finalmente realizaremos ejercicio sobre la red actual*
+
+    ---
+
+    ## Intro
+
+    ### Precedente: DNS (Domain Name Service)
+
+    - Fundamentalmente: mapeado de nombres a su IP actual
+    - Uno de los pilares de la web actual
+    - Punto de centralización (Central point of failure) : Registro ICANN
+    - Consistente básicamente en:
+      - Namespaces
+      - Name Servers
+      - Resolvers
+
+    ---
+
+    ## Namespaces
+
+    - El estandar DNS define una estructura de arbol en el cual, cada rama representa un dominio
+    - Cada dominio da acceso a una listado de [recursos](http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml), que contiene información:
+      - Dirección IP
+      - Email host name
+      - Text Record
+      - [More](http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml)
+
+    ---
+
+    ### Namespaces (Example)
+
+    Comando host (Unix): permite acceder a los recursos de un dominio determinado.
+
+    ```sh
+    $host buendia.io
+
+    buendia.io has address 192.30.252.154
+    ```
+
+    ```sh
+    $host -a buendia.io
+
+    ;; ANSWER SECTION:
+    buendia.io.		1642	IN	MX	20 eforward5.registrar-servers.com.
+    buendia.io.		1642	IN	MX	10 eforward2.registrar-servers.com.
+    buendia.io.		1642	IN	MX	15 eforward4.registrar-servers.com.
+    buendia.io.		1642	IN	MX	10 eforward1.registrar-servers.com.
+    buendia.io.		1642	IN	MX	10 eforward3.registrar-servers.com.
+    buendia.io.		753	IN	A	192.30.252.153
+    buendia.io.		753	IN	A	192.30.252.154
+    ```
+
+    ---
+
+    ### Name Server
+
+    - Aplicación en un servidor que contiene información sobre el arbol
+
+
+    - La aplicación responde a las queries para aquellos dominios de los que es la autoridad y reenvía las peticiones a otros dominios de los que no tiene autoridad
+
+
+    - Lo cual permite acceder a todos los dominios en un árbol
+
+
+
+    ---
+
+    ### Resolvers
+
+    - ¿A quíen debo preuntar para saber donde acceder al recurso?
+
+    - Tiene acceso al menos a un Servidor DNS, puede dirigir a otros servidores si es necesario
+
+
+
+    ---
+
+
+
+    ### Jerarquía
+
+    ![hierarchy](http://player.slideplayer.com/16/5263622/data/images/img4.jpg)
+
+    ---
+
+    ### Resolución de nombres
+
+    ![Comunicaciones](http://player.slideplayer.com/16/5263622/data/images/img9.jpg)
+
+    ---
+
+    ## Vale ya con DNS, ¿no?
+
+    ![prehistoria](http://s2.quickmeme.com/img/3c/3c5daf69624d88c82b1580f5a7758da369445378c945b739fa1d78931af373dc.jpg)
+
+    ---
+
+    # ENS
+
+    ![hello](https://cdn-images-1.medium.com/max/1600/1*U-48MhnGYYpJkxZObAw20w.png)
+
+
+
+    ---
+
+    ## Motivación
+
+
+
+    - Creación de un único registro para todos los nombres
+    - Crear direcciones de Ethereum Human Readable (Ver [phising attacks](http://buendia.io/htmlposts/tokensale.html#22))
+    - Registro de nombres por defecto para la mayor parte de servicios de Ethereum (Mist, Swarm..)
+    - Eliminar jerarquías en la arquitectura
+    - Conexión con los actuales dominios, permitir retrocompatibilidad en la actual Web.
+
+    ---
+
+    ## Arquitectura
+    La arquitectura de ENS está principalmente formada por tres componentes:
+    1. **ENS** : Un registro único para todos los dominios de Ethereum. Un Smart contract muy simplón: mapping de los nombres registrados a dos direcciones:
+       - La dirección del owner
+       - La dirección del resolver
+       - TTL
+    2. **El resolver** Otro mapping, en este caso desde el dominio seleccionado a los diferentes recursos asociados (namespace) .
+
+    3. **Contratos de registro**: Diseñados para gestionar dominios jerarquicamente inferiores .
+
+    ---
+
+    ## Arquitectura
+
+    ![architecture](http://i65.tinypic.com/2n8qxpf.png)
+
+    ---
+
+    ## ENS Registry
+
+    ```javascript
+    contract AbstractENS {
+        function owner(bytes32 node) constant returns(address);
+        function resolver(bytes32 node) constant returns(address);
+        function ttl(bytes32 node) constant returns(uint64);
+        function setOwner(bytes32 node, address owner);
+        function setSubnodeOwner(bytes32 node, bytes32 label, address owner);
+        function setResolver(bytes32 node, address resolver);
+        function setTTL(bytes32 node, uint64 ttl);
+
+        event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
+        event Transfer(bytes32 indexed node, address owner);
+        event NewResolver(bytes32 indexed node, address resolver);
+        event NewTTL(bytes32 indexed node, uint64 ttl);
+    }
+    ```
+
+    ---
+
+    ## ENS Registry
+
+    Básicamente:
+
+    ```rust
+        struct Record {
+            address owner;
+            address resolver;
+            uint64 ttl;
+        }
+
+        mapping(bytes32=>Record) records;
+    ```
+
+    ---
+
+    ## Namehash
+
+    ¿Cómo mantenemos cierto grado de privacidad sobre los nodos/Keys/dominios, manteniendo un URI?
+
+    ```javascript
+    var labels = name.split('.')
+
+        for(var i = labels.length - 1; i >= 0; i--) {
+          var labelSha = sha3(labels[i])
+          node = sha3(new Buffer(node + labelSha, 'hex'))
+        }
+    ```
+
+    Básicamente, haciendo un Keccak hash recursivo de cada "label", separada por los puntos.
+
+    Definición: [EIP137](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-137.md)
+
+    ---
+
+    ## Namehash: Implementación
+
+    ```sh
+    npm install eth-ens-namehash -S
+    ```
+
+    ```javascript
+    var namehash = require('eth-ens-namehash')
+    var hash = namehash('buendia.eth')
+    // '0x3b54251663d00d80dfd97b41b67522dd6e85564dec4161e78630a8772bf3be97'
+    ```
+    ---
+    ## Registrar
+
+    - Contrato con capacidad de registrar subdominios de un registro
+    - Fija las normas para registrar estos subdominios
+    - Owner de ENS al deployer del contrato (actualmente una multisig)
+    - Por jerarquía, el registro principal actualmente es '.eth', un 'auctionRegistrar'
+
+    ---
+
+    ## Ejemplo: [FIFS Registrar](https://github.com/ethereum/ens/blob/master/contracts/FIFSRegistrar.sol)
+
+    ```javascript
+    import './AbstractENS.sol';
+    /**
+     * A registrar that allocates subdomains to the first person to claim them.
+     */
+    contract FIFSRegistrar {
+        AbstractENS ens;
+        bytes32 rootNode;
+      //...
+        function FIFSRegistrar(AbstractENS ensAddr, bytes32 node) {
+            ens = ensAddr;
+            rootNode = node;
+        }
+        function register(bytes32 subnode, address owner) only_owner(subnode) {
+            ens.setSubnodeOwner(rootNode, subnode, owner);
+        }
+    }
+    ```
+
+    ---
+
+    ## Ejemplo práctico FIFS (I)
+
+    En la terminal 2:
+
+    ```sh
+    $ testrpc
+    ```
+
+    En la terminal 1:
+
+    ```sh
+    $ git clone https://github.com/ethereum/ens.git
+    $ truffle migrate --network dev.fifs
+    $ truffle console
+    ```
+
+    Almacena las claves migradas (yourENSDeployedAddress, yourFIFSDeployedAddress)
+
+    ---
+
+    ## Ejemplo práctico FIFS (II)
+
+    ```javascript
+    const namehash = require('./node_modules/eth-ens-namehash');
+    const ens = ENS.at(yourENSDeployedAddres);
+    const fifs= FIFSRegistrar.at(yourFIFSDeployedAddress);
+    const tld= 'eth'; // This is by default TLD, probably opened in a future
+    const default_account = web3.eth.accounts[0];
+
+    let node = namehash('eth');
+    //'0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae'
+
+    ens.owner(''); //Owner of the ENS Contract
+    // default_account
+    ens.owner(node);
+    // FIFS_Registrar
+    ```
+
+    ---
+
+    ## Ejemplo práctico FIFS (III)
+
+    ```javascript
+    let subnode='buendiadas'; //I want to register my name!
+    let complete_node=subnode + '.' + tld; //buendiadas.eth
+    let curr_account= web3.eth.accounts[1]; //My account!
+
+    let tx = fifs.register(web3.sha3(subnode),curr_account);
+    let new_owner=ens.owner(namehash(complete_node);
+    new_owner
+    // My Account!
+
+    ```
+
+    ---
+
+    ## Resolver
+
+    - Acceso al NameSpace del dominio
+    - Cada tipo de registro (Recuerda A,MX, etc…) se representa como una nueva interfaz.
+    - Actualmente:
+
+    | Record type       | Function(s) | Interface ID | Defined in                               |
+    | ----------------- | ----------- | ------------ | ---------------------------------------- |
+    | Ethereum address  | addr        | 0x3b3b57de   | [EIP137](https://github.com/ethereum/EIPs/issues/137) |
+    | ENS Name          | name        | 0x691f3431   | [EIP181](https://github.com/ethereum/EIPs/issues/181) |
+    | ABI specification | ABI         | 0x2203ab56   | [EIP205](https://github.com/ethereum/EIPs/pull/205) |
+    | Public key        | pubkey      | 0xc8690233   | [EIP619](https://github.com/ethereum/EIPs/pull/619) |
+
+    ---
+
+    ## Ejemplo práctico resolver
+
+    Vamos a llenar el campo address (interfaz 0x3b3b57de)!
+
+    ```javascript
+    const res_addres= PublicResolver.address;
+    ens.setResolver(namehash(complete_node), res.address,{from:curr_account});//Only allowed from curr_account!
+
+    res.setAddr(namehash(complete_node), web3.eth.accounts[2], {from: curr_account});
+    getAddr('myname.test')
+    ```
+
+    ---
+
+    # The end
+
+    ![img](https://s3.amazonaws.com/codementor_content/2015-Aug-week2/cookie.jpg)
+
+
+
+
+
+
+
+    ## Resolvers
+
+
+    </textarea>
+
+    <a href="ethereum2.html">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

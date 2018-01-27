@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+  			body {
+      font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+      font-weight: lighter;
+
+  }
+
+  h1, h2, h3 {
+      font-weight: lighter;
+      margin-bottom: 0;
+  }
+
+  .remark-slide-content {
+      background: black;
+      color: white;
+  }
+  .remark-slide-content h1 {
+      font-size: 3em;
+  }
+
+  .remark-slide-content h2 {
+      font-size: 2em;
+  }
+
+  .remark-slide-content h3 {
+      font-size: 1.6em;
+  }
+
+
+
+  .footnote {
+      position: absolute;
+      bottom: 3em;
+  }
+
+  li p {
+      line-height: 1.25em;
+  }
+
+
+  a, a>code {
+      color: white;
+      font-weight:bold;
+      text-decoration: none;
+  }
+
+  img {
+    /* float: left; */
+    width: 80%;
+    margin: auto;
+    margin-top: 12%;
+    margin-left: 10%;
+}
+
+  code {
+      background: none repeat scroll 0 0 #82ffd5;
+      color: black;
+      border: 1px solid #DEDEDE;
+      border-radius: 3px;
+      padding: 0 0.2em;
+  }
+
+  .remark-code, .remark-inline-code {
+      font-family: "Titillium Web", "Courier", monospace;
+  }
+
+  .remark-code-line-highlighted {
+      background-color: #373832;
+  }
+
+  .pull-left {
+      float: left;
+      width: 47%;
+  }
+
+  .pull-right {
+      float: right;
+      width: 47%;
+  }
+
+  .pull-right~p {
+      clear: both;
+  }
+
+  #slideshow .slide .content code {
+      font-size: 0.8em;
+  }
+
+  #slideshow .slide .content pre code {
+      font-size: 0.9em;
+      padding: 15px;
+  }
+
+  .main-title, .title {
+      background: #272822;
+      color: #82ffd5;
+      text-shadow: 0 0 20px #333;
+  }
+
+  .title h1, .title h2, .main-title h1, .main-title h2 {
+      color: #82ffd5;
+      line-height: 0.8em;
+  }
+
+  .code{
+
+  }
+
+  /* Custom */
+
+  .remark-code {
+      display: block;
+      padding: 0.5em;
+  }
+
+  		</style>
+  </head>
+  <body>
+    <textarea id="source">
+
+ Intro
+
+
+
+---
+
+Linnia
+
+- The Linnia protocol facilitates data sharing and permissioning
+- Linnia is a new way to collabore on data without intermediaries.
+- Linnia enables other people to add data related to any another user by using that user public key.
+- Also provenance of the data, by enabling other health authorities or certified actors to contribute to users profile
+
+
+
+---
+
+Tech Matrix
+
+           ID           Storage                   Roles                                   Metadata            Computation     Transmission               
+      uPort limited     Independent integration   Certificate Authority                   Plain text Metadata Simple HTH                                 
+  HD-Wallets over uPort Transparent multi-storage Fully Decentralized Roles. Reputation.  IPLD                TrueBit, Plasma Selective packet disclosure
+
+
+
+---
+
+Storage
+
+- Current Status: Resource centralization
+- P2P solutions are proposed
+  - Torrent 
+  - Web3.0: IPFS, Swarm, StorJ, MaidSafe, Sia
+  - Local Storage
+- Self sovereign data
+  
+
+---
+
+Ethereum as a state singleton
+
+Gav Wood: 
+
+“Ethereum is a collection of non-localized singleton programmable data structures”. (DevCon1, 2015)
+
+
+
+
+
+---
+
+
+
+Linnia as the user resource instance
+
+- uPort creates a single instance of a user identity
+- Linked data 
+- 
+
+
+
+---
+
+Metadata
+
+- Discoverability
+  - Plain data
+  - 
+- Studied technologies: Enclaves, 
+
+
+
+---
+
+
+
+
+
+
+ 
+    </textarea>
+
+    <a href="ethereum2.html">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
